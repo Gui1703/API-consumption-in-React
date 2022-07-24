@@ -41,6 +41,11 @@ export const Image = styled.img`
   border-radius: 10px;
 `;
 
+export const NameAndButtonFavorite = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
 export const Button = styled.button`
   background: transparent;
   border: none;

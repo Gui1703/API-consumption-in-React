@@ -34,3 +34,26 @@ export const ContainerItems = styled.div`
 export const Image = styled.img`
   border-radius: 10px;
 `;
+
+export const NameAndButtonFavorite = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const Button = styled.button`
+  background: transparent;
+  border: none;
+  font-size: 27px;
+  cursor: pointer;
+  margin-right: 40px;
+  color: #fff;
+  transition: all 0.3s ease 0s;
+
+  @media screen and (max-width: 630px) {
+    margin-right: 0;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;

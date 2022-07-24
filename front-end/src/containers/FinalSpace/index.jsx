@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, ContainerItems, Image } from "./styles";
+import {
+  Button,
+  Container,
+  ContainerItems,
+  Image,
+  NameAndButtonFavorite,
+} from "./styles";
 import axios from "axios";
 import LogoFinalSpace from "../../assets/final-space.png";
 import NavBar from "../../components/NavBar";
 
-function FInalSpace() {
+const favoritesKey = "final-space";
+
+function FinalSpace() {
   const [characters, setCharacters] = useState();
-  const [favorite, setFavorite] = useState();
+  const [favorites, setFavorites] = useState([]);
+
+  const loadFavoriteCharacter = () => {
+    const character = JSON.parse(localStorage.getItem(favoritesKey)) || [];
+    setFavorites(character);
+  };
+
+  const updateFavoriteCharacter = (name) => {
+    const updatedFavorites = [...favorites];
+    const favoriteIndex = favorites.indexOf(name);
+    if (favoriteIndex >= 0) updatedFavorites.splice(favoriteIndex, 1);
+    else updatedFavorites.push(name);
+
+    localStorage.setItem(favoritesKey, JSON.stringify(updatedFavorites));
+    setFavorites(updatedFavorites);
+  };
+
+  const onHeartClick = (character) => updateFavoriteCharacter(character);
 
   useEffect(() => {
     async function getAPI() {
@@ -17,25 +42,8 @@ function FInalSpace() {
       setCharacters(data);
     }
     getAPI();
+    loadFavoriteCharacter();
   }, []);
-
-  const favoriteCharacter = async (e) => {
-    let child = e.currentTarget.parentElement.lastChild;
-
-    console.log(e.target.value);
-
-    if (child.style.color === "white") {
-      child.style = `
-          color: red;
-          transition: all 0.3s ease 0s;
-            `;
-    } else {
-      child.style = `
-          color: white;
-          transition-delay: 0s, 0s, 0.3s;
-          `;
-    }
-  };
 
   return (
     <Container>
@@ -46,17 +54,12 @@ function FInalSpace() {
           return (
             <ContainerItems key={user.id}>
               <Image src={user.img_url} alt={user.name} />
-              <p>
-                <Button
-                  type="submit"
-                  value={user.name}
-                  onClick={favoriteCharacter}
-                >
-                  {user.name}
-
-                  <i className="bx bx-heart"></i>
+              <NameAndButtonFavorite>
+                <p>{user.name}</p>
+                <Button onClick={() => onHeartClick(user.name)}>
+                  {favorites.includes(user.name) ? "❤️" : "💙"}
                 </Button>
-              </p>
+              </NameAndButtonFavorite>
               <p>{user.gender}</p>
               <p>{user.origin}</p>
             </ContainerItems>
@@ -66,4 +69,4 @@ function FInalSpace() {
   );
 }
 
-export default FInalSpace;
+export default FinalSpace;

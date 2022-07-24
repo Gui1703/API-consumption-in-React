@@ -21,6 +21,7 @@ export const Form = styled.form`
 
 export const H1 = styled.h1`
   font-size: 25px;
+  color: #fff;
 `;
 
 export const P = styled.p`
